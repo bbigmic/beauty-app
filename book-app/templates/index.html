@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezerwacja Konsultacji</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Zarezerwuj konsultację</h1>
+
+    <!-- Wyświetlenie błędów (jeśli są) -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="error-message">
+          <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="/" method="POST">
+        <label for="imie">Imię:</label>
+        <input type="text" id="imie" name="imie" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="ekspert">Wybierz eksperta:</label>
+        <select id="ekspert" name="ekspert" required>
+            {% for ekspert in eksperci %}
+            <option value="{{ ekspert }}">{{ ekspert }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="rodzaj">Rodzaj konsultacji:</label>
+        <select id="rodzaj" name="rodzaj" required>
+            {% for rodzaj in rodzaje_konsultacji %}
+            <option value="{{ rodzaj }}">{{ rodzaj }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="termin">Preferowany termin:</label>
+        <input type="datetime-local" id="termin" name="termin" required>
+
+        <button type="submit">Zarezerwuj</button>
+    </form>
+</body>
+</html>

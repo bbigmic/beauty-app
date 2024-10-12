@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admina</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Panel Admina</h1>
+    
+    <form action="/admin" method="POST" class="admin-form">
+        <label for="ekspert">Wybierz eksperta:</label>
+        <select id="ekspert" name="ekspert" required>
+            {% for ekspert in eksperci %}
+            <option value="{{ ekspert }}" {% if ekspert == wybrany_ekspert %} selected {% endif %}>{{ ekspert }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Pokaż rezerwacje</button>
+    </form>
+
+    <a href="{{ url_for('logout') }}">Wyloguj się</a>
+
+    {% if rezerwacje %}
+        <h2>Rezerwacje dla eksperta {{ wybrany_ekspert }}:</h2>
+        <ul class="admin-rezerwacje-list">
+            {% for rezerwacja in rezerwacje %}
+            <li>{{ rezerwacja['imie'] }} - {{ rezerwacja['email'] }} - {{ rezerwacja['rodzaj'] }} - {{ rezerwacja['termin'] }}</li>
+            {% endfor %}
+        </ul>
+    {% elif wybrany_ekspert %}
+        <p>Brak rezerwacji dla eksperta {{ wybrany_ekspert }}.</p>
+    {% endif %}
+</body>
+</html>
